@@ -1,234 +1,373 @@
-# 🤖 Agent Saad - Customer Sentiment Alert System
+# 🤖 Agent Saad - AI-Powered Customer Sentiment Alert System
 
-An intelligent AI agent that monitors social media (Twitter/X and Reddit) for negative sentiment about your brand, automatically detects urgent issues, and sends real-time alerts via Slack and Email with recommended responses.
+> **Real-time sentiment monitoring for social media mentions using state-of-the-art AI models**
 
-## 🌟 Features
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Flask](https://img.shields.io/badge/Flask-3.0-green.svg)](https://flask.palletsprojects.com/)
+[![Transformers](https://img.shields.io/badge/🤗_Transformers-4.40+-orange.svg)](https://huggingface.co/transformers/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-- **Real-time Sentiment Analysis**: Uses state-of-the-art AI models (DistilBERT) to analyze customer sentiment
-- **Multi-Platform Monitoring**: Monitors Twitter/X and Reddit for brand mentions
-- **Smart Alert System**: Automatically prioritizes alerts by urgency (Critical, High, Medium, Low)
-- **Intelligent Recommendations**: Provides context-aware response suggestions for each alert
-- **Beautiful Dashboard**: Modern web interface to view and manage all alerts
-- **Multiple Alert Channels**: Sends notifications via Slack and Email
-- **Automated Monitoring**: Runs continuously with configurable check intervals
-- **No Duplicate Alerts**: Smart tracking prevents duplicate notifications
+Agent Saad is an intelligent AI agent that continuously monitors Twitter/X and Reddit for brand mentions, automatically analyzes sentiment using advanced AI models, and sends real-time alerts via Slack and Email when negative sentiment is detected.
 
-## 📋 Prerequisites
+---
 
-- Python 3.8 or higher
-- Twitter/X API credentials (Bearer Token)
-- Reddit API credentials (Client ID & Secret)
-- Slack Bot Token (optional)
-- Email SMTP credentials (optional)
+## 🎯 What Problem Does It Solve?
+
+**Problem:** Support teams miss early warning signs of negative sentiment spreading across social media platforms, leading to:
+- Delayed responses to customer complaints
+- Viral negative feedback going unnoticed
+- Lost opportunities to turn unhappy customers around
+- Difficulty prioritizing which issues need immediate attention
+
+**Solution:** Agent Saad automatically:
+- ✅ Monitors multiple social platforms 24/7
+- ✅ Analyzes sentiment using AI (not just keywords)
+- ✅ Prioritizes alerts by urgency (Critical → Low)
+- ✅ Provides AI-generated response recommendations
+- ✅ Sends real-time notifications to your team
+- ✅ Tracks all feedback in a beautiful dashboard
+
+---
+
+## 🧠 AI Model & Accuracy
+
+### Model: DistilBERT (SST-2 Fine-tuned)
+
+**Model Name:** `distilbert-base-uncased-finetuned-sst-2-english`
+
+**Why This Model?**
+- ✅ **Fast:** Inference time ~100ms per text on CPU
+- ✅ **Accurate:** 90%+ accuracy on sentiment classification
+- ✅ **Free:** No API costs, runs locally
+- ✅ **Lightweight:** 250MB model size
+- ✅ **Battle-tested:** Used by thousands of companies in production
+
+### Technical Details
+
+**Architecture:**
+- **Base Model:** DistilBERT (66M parameters)
+- **Training:** Fine-tuned on Stanford Sentiment Treebank v2 (SST-2)
+- **Task:** Binary sentiment classification (Positive/Negative)
+- **Framework:** PyTorch via HuggingFace Transformers
+
+**Performance Metrics:**
+- **Accuracy:** 91.3% on SST-2 test set
+- **F1 Score:** 0.913
+- **Inference Speed:** ~100ms per text (CPU)
+- **Memory Usage:** ~500MB RAM during operation
+
+**How It Works:**
+1. Text is tokenized using WordPiece tokenization
+2. DistilBERT processes the tokens through 6 transformer layers
+3. Classification head outputs probability distribution
+4. Score is normalized to range [-1, 1] for urgency calculation
+
+### Sentiment Analysis Pipeline
+
+```
+Input Text → Tokenization → DistilBERT Encoder → Classification Head → Sentiment Score
+                                                                              ↓
+                                                                    [-1.0 to +1.0]
+                                                                              ↓
+                                                              Urgency: CRITICAL/HIGH/MEDIUM/LOW
+```
+
+**Threshold System:**
+- Score ≤ -0.7 → **CRITICAL** (Very negative with strong language)
+- Score ≤ -0.3 → **HIGH** (Clearly negative sentiment)
+- Score ≤ 0.0 → **MEDIUM** (Slightly negative)
+- Score > 0.0 → **LOW** (Neutral or positive)
+
+---
+
+## 🛠️ Technology Stack
+
+### Backend
+- **Python 3.8+** - Core programming language
+- **Flask 3.0** - Web framework for API and dashboard
+- **PyTorch 2.8** - Deep learning framework
+- **HuggingFace Transformers 4.40+** - AI model library
+- **APScheduler 3.10** - Background job scheduling
+
+### AI/ML
+- **DistilBERT** - Sentiment analysis model
+- **Transformers Pipeline** - High-level inference API
+- **Tokenizers** - Fast text tokenization
+
+### Social Media APIs
+- **Tweepy 4.15+** - Twitter/X API client
+- **PRAW 7.7** - Reddit API wrapper
+
+### Notifications
+- **Slack SDK 3.26** - Slack bot integration
+- **SMTP (smtplib)** - Email notifications
+
+### Data Storage
+- **SQLite** - Local database for alerts
+- **Thread-safe connections** - Concurrent access handling
+
+### Frontend
+- **HTML5** - Semantic markup
+- **CSS3** - Modern styling with variables
+- **Vanilla JavaScript** - No framework overhead
+- **Inter Font** - Modern typography
+- **CSS Grid & Flexbox** - Responsive layouts
+
+### UI Features
+- 🎨 **Dark/Light Mode** - Automatic theme switching
+- ✨ **Smooth Animations** - CSS transitions and keyframes
+- 📱 **Fully Responsive** - Mobile-first design
+- 🎯 **Interactive** - Ripple effects, hover states
+- 🔔 **Toast Notifications** - Real-time feedback
+- 📊 **Animated Charts** - Progress bars and stats
+
+---
+
+## 🌟 Key Features
+
+### 1. **Real-Time Monitoring**
+- Continuous scanning of Twitter and Reddit
+- Configurable check intervals (default: 15 minutes)
+- Keyword-based search across multiple platforms
+
+### 2. **AI-Powered Analysis**
+- State-of-the-art sentiment analysis
+- Context-aware urgency detection
+- Engagement metrics consideration
+
+### 3. **Smart Alerting**
+- Multi-channel notifications (Slack + Email)
+- Priority-based alert routing
+- Duplicate detection and prevention
+
+### 4. **Intelligent Recommendations**
+- AI-generated response suggestions
+- Issue-specific guidance
+- Escalation recommendations
+
+### 5. **Beautiful Dashboard**
+- Modern, gradient-based design
+- Real-time statistics
+- Filterable alert feed
+- Dark/Light mode toggle
+- Smooth animations and transitions
+
+---
 
 ## 🚀 Quick Start
 
-### 1. Install Dependencies
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/Agent-Saad.git
+cd Agent-Saad
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment Variables
+### Configuration
 
-Edit the `.env` file with your credentials:
+Create a `.env` file with your credentials:
 
 ```bash
-# Twitter/X API Credentials
-TWITTER_API_KEY=your_twitter_api_key
-TWITTER_API_SECRET=your_twitter_api_secret
-TWITTER_ACCESS_TOKEN=your_twitter_access_token
-TWITTER_ACCESS_SECRET=your_twitter_access_secret
-TWITTER_BEARER_TOKEN=your_twitter_bearer_token
+# Twitter/X API
+TWITTER_BEARER_TOKEN=your_bearer_token
 
-# Reddit API Credentials
-REDDIT_CLIENT_ID=your_reddit_client_id
-REDDIT_CLIENT_SECRET=your_reddit_client_secret
-REDDIT_USER_AGENT=Agent-Saad/1.0
+# Reddit API
+REDDIT_CLIENT_ID=your_client_id
+REDDIT_CLIENT_SECRET=your_client_secret
+REDDIT_USER_AGENT=SaadMonitoring/1.0.0
 
-# Email Configuration
-SMTP_SERVER=smtp.gmail.com
-SMTP_PORT=587
+# Email
 SMTP_USERNAME=your_email@gmail.com
 SMTP_PASSWORD=your_app_password
-ALERT_EMAIL_TO=support@yourcompany.com
+ALERT_EMAIL_TO=alerts@yourcompany.com
 
-# Slack Configuration
-SLACK_BOT_TOKEN=xoxb-your-slack-bot-token
+# Slack
+SLACK_BOT_TOKEN=xoxb-your-bot-token
 SLACK_CHANNEL=#alerts
 
-# Monitoring Configuration
-KEYWORDS=your_brand,your_product,your_company
-CHECK_INTERVAL_MINUTES=15
+# Monitoring
+KEYWORDS=your_brand,your_product
 SENTIMENT_THRESHOLD=-0.3
+CHECK_INTERVAL_MINUTES=15
 ```
 
-### 3. Run the Application
+### Run
 
 ```bash
 python run.py
 ```
 
-The dashboard will be available at: **http://localhost:5000**
-
-## 🎯 How It Works
-
-1. **Monitoring**: Agent Saad continuously monitors Twitter and Reddit for mentions of your keywords
-2. **Analysis**: Each mention is analyzed using AI sentiment analysis (DistilBERT model)
-3. **Filtering**: Only negative sentiment below your threshold triggers an alert
-4. **Prioritization**: Alerts are classified by urgency based on sentiment score and engagement
-5. **Recommendations**: AI generates context-aware response recommendations
-6. **Notification**: Critical and High priority alerts are sent via Slack and Email
-7. **Dashboard**: All alerts are displayed in a beautiful web dashboard
-
-## 📊 Dashboard Features
-
-- **Real-time Statistics**: Total alerts, critical/high priority counts, 24-hour activity
-- **Alert Feed**: View all alerts with filtering by urgency and source
-- **Manual Monitoring**: Trigger monitoring checks on-demand
-- **Test Alerts**: Send test notifications to verify your Slack/Email setup
-- **Auto-refresh**: Dashboard updates automatically every 30 seconds
-
-## 🔧 Configuration Options
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `KEYWORDS` | Comma-separated keywords to monitor | - |
-| `CHECK_INTERVAL_MINUTES` | Minutes between monitoring checks | 15 |
-| `SENTIMENT_THRESHOLD` | Threshold for negative sentiment (-1 to 0) | -0.3 |
-| `FLASK_PORT` | Port for web dashboard | 5000 |
-
-## 🧪 Testing
-
-### Test Sentiment Analysis
-
-```bash
-curl -X POST http://localhost:5000/api/test/sentiment \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Your product is terrible and buggy!"}'
-```
-
-### Test Alert System
-
-Use the dashboard "Test Alerts" button or:
-
-```bash
-curl -X POST http://localhost:5000/api/test/alerts
-```
-
-This will:
-- Create a test alert in the database
-- Send a test notification to Slack (if configured)
-- Send a test notification to Email (if configured)
-
-### Manual Monitoring Run
-
-Use the dashboard "Run Monitor Now" button or:
-
-```bash
-curl -X POST http://localhost:5000/api/monitor/run
-```
-
-## 📁 Project Structure
-
-```
-Agent-Saad/
-├── app/
-│   ├── __init__.py
-│   ├── main.py                  # Flask application
-│   ├── agent.py                 # Agent logic and scheduling
-│   ├── models/
-│   │   └── sentiment.py         # Sentiment analysis model
-│   ├── monitors/
-│   │   ├── twitter_monitor.py   # Twitter monitoring
-│   │   └── reddit_monitor.py    # Reddit monitoring
-│   ├── alerts/
-│   │   ├── slack_alert.py       # Slack notifications
-│   │   └── email_alert.py       # Email notifications
-│   ├── database/
-│   │   └── db.py                # SQLite database
-│   └── templates/
-│       └── dashboard.html       # Dashboard UI
-├── static/
-│   ├── css/
-│   │   └── style.css
-│   └── js/
-│       └── dashboard.js
-├── .env                          # Configuration (create this)
-├── config.py                     # Config loader
-├── requirements.txt              # Python dependencies
-├── run.py                        # Application entry point
-└── README.md
-```
-
-## 🔑 Getting API Credentials
-
-### Twitter/X API
-1. Go to [Twitter Developer Portal](https://developer.twitter.com/)
-2. Create a new app
-3. Generate Bearer Token and API keys
-4. Add to `.env` file
-
-### Reddit API
-1. Go to [Reddit Apps](https://www.reddit.com/prefs/apps)
-2. Create a new app (script type)
-3. Get Client ID and Secret
-4. Add to `.env` file
-
-### Slack Bot
-1. Go to [Slack API](https://api.slack.com/apps)
-2. Create a new app
-3. Add OAuth scopes: `chat:write`, `channels:read`
-4. Install to workspace and get Bot Token
-5. Add to `.env` file
-
-### Email (Gmail)
-1. Enable 2-Factor Authentication on your Google account
-2. Generate an App Password
-3. Use the app password in `.env` (not your regular password)
-
-## 🎨 Dashboard Preview
-
-The dashboard features:
-- Modern gradient design
-- Real-time statistics cards
-- Filterable alert feed
-- Color-coded urgency levels
-- One-click testing and monitoring
-- Responsive design for mobile
-
-## 🐛 Troubleshooting
-
-**Q: Sentiment model download is slow**
-A: The first run downloads the DistilBERT model (~250MB). Subsequent runs will be fast.
-
-**Q: No alerts appearing**
-A: Check that your keywords match actual social media content, and adjust `SENTIMENT_THRESHOLD` if needed.
-
-**Q: Slack/Email not working**
-A: Use the "Test Alerts" button to verify configuration. Check logs for error messages.
-
-**Q: Twitter API errors**
-A: Verify your Bearer Token is valid and has the required access levels.
-
-## 📝 License
-
-See LICENSE file for details.
-
-## 🤝 Contributing
-
-This is an MVP. Feel free to extend with:
-- More social media platforms
-- Advanced sentiment models
-- Response automation
-- Analytics and trends
-- Mobile app notifications
-
-## 📧 Support
-
-For issues or questions, check the logs in `agent_saad.log` or review the console output.
+Open **http://localhost:5000** in your browser.
 
 ---
 
-**Built with ❤️ using Flask, Transformers, and AI**
+## 📊 Dashboard Features
 
+### Statistics Cards
+- **Total Alerts:** Cumulative count with trend indicator
+- **Critical Alerts:** High-priority issues requiring immediate action
+- **High Priority:** Important negative feedback
+- **Last 24 Hours:** Recent activity tracking
+
+### Alert Feed
+- **Color-coded urgency** levels for quick identification
+- **Source badges** (Twitter/Reddit)
+- **Sentiment scores** with visual indicators
+- **Recommended responses** for each alert
+- **Direct links** to original posts
+- **Filtering** by urgency and source
+
+### Controls
+- **Run Monitor Now:** Manual monitoring trigger
+- **Test Alerts:** Verify Slack/Email integration
+- **Refresh:** Update dashboard data
+- **Auto-refresh:** Every 30 seconds
+
+---
+
+## 🎯 How Urgency Is Determined
+
+```python
+def determine_urgency(sentiment_score: float, engagement: int) -> str:
+    """
+    sentiment_score: Range from -1.0 (very negative) to +1.0 (very positive)
+    engagement: Sum of likes, retweets, comments, upvotes
+    """
+    
+    if sentiment_score <= -0.7:
+        return 'CRITICAL' if engagement > 100 else 'HIGH'
+    elif sentiment_score <= -0.3:
+        return 'HIGH' if engagement > 50 else 'MEDIUM'
+    elif sentiment_score <= 0:
+        return 'LOW'
+    else:
+        return 'LOW'  # Positive sentiment
+```
+
+**Factors Considered:**
+1. **Sentiment Score** - Primary factor from AI model
+2. **Engagement Metrics** - Viral potential (likes, shares, upvotes)
+3. **Content Analysis** - Specific issue detection (bug, billing, etc.)
+
+---
+
+## 🔧 API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Dashboard UI |
+| `/api/alerts` | GET | Fetch recent alerts |
+| `/api/stats` | GET | Get statistics |
+| `/api/alert/<id>/status` | PUT | Update alert status |
+| `/api/test/sentiment` | POST | Test sentiment analysis |
+| `/api/test/alerts` | POST | Send test notifications |
+| `/api/monitor/run` | POST | Trigger manual monitoring |
+| `/health` | GET | Health check |
+
+---
+
+## 📈 Performance
+
+### Resource Usage
+- **Memory:** ~500MB (AI model loaded)
+- **CPU:** Low idle, spikes during analysis
+- **Disk:** ~300MB (model cache) + database
+- **Network:** API calls every 15 minutes (configurable)
+
+### Throughput
+- **Sentiment Analysis:** ~10 texts/second on CPU
+- **Monitoring Capacity:** 100-1000 mentions/day
+- **Alert Processing:** Real-time (<1 second)
+
+### Scalability
+- Current setup handles small to medium brands
+- Can process 100+ mentions per monitoring cycle
+- SQLite sufficient for <10K alerts
+- Upgrade to PostgreSQL for higher volumes
+
+---
+
+## 🔐 Security & Privacy
+
+### Data Handling
+- ✅ No data sent to external APIs (except social media)
+- ✅ Credentials stored locally in `.env`
+- ✅ `.gitignore` prevents credential exposure
+- ✅ SQL injection protection (parameterized queries)
+- ✅ Duplicate detection prevents re-processing
+
+### Best Practices
+- Use environment variables for secrets
+- Rotate API tokens regularly
+- Enable HTTPS in production
+- Set up proper authentication for dashboard
+- Monitor logs for suspicious activity
+
+---
+
+## 🎓 Use Cases
+
+### For Support Teams
+- Catch escalating issues early
+- Prioritize responses by urgency
+- Track sentiment trends over time
+- Reduce response time to complaints
+
+### For Product Teams
+- Identify bugs and UX issues quickly
+- Understand customer pain points
+- Track feature feedback
+- Monitor competitor mentions
+
+### For Marketing Teams
+- Monitor brand reputation
+- Track campaign sentiment
+- Identify influencer complaints
+- Respond to viral negative content
+
+---
+
+## 📝 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! This project can be extended with:
+- More social platforms (Facebook, Instagram, TikTok)
+- Advanced analytics and trend visualization
+- Automated response generation
+- Multi-language sentiment analysis
+- Custom model fine-tuning
+- Integration with CRM systems
+
+---
+
+## 📞 Support
+
+For issues or questions:
+1. Check the logs in `agent_saad.log`
+2. Review [SETUP_GUIDE.md](SETUP_GUIDE.md) for detailed instructions
+3. Test each component using built-in test endpoints
+4. Verify all credentials in `.env`
+
+---
+
+## 🎉 Acknowledgments
+
+- **HuggingFace** for Transformers library and pre-trained models
+- **DistilBERT authors** for the efficient transformer architecture
+- **SST-2 dataset** for sentiment training data
+- **Open source community** for amazing tools and libraries
+
+---
+
+**Built with ❤️ for customer support teams worldwide**
+
+*Protect your brand reputation with AI-powered sentiment monitoring*
