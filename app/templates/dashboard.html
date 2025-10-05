@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Saad - Customer Sentiment Alert Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Agent Saad</h1>
+            <p class="subtitle">Customer Sentiment Alert Dashboard</p>
+        </header>
+
+        <div class="controls">
+            <button id="runMonitor" class="btn btn-primary">Run Monitor Now</button>
+            <button id="testAlerts" class="btn btn-secondary">Test Alerts</button>
+            <button id="refreshData" class="btn btn-info">Refresh</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalAlerts">0</div>
+                <div class="stat-label">Total Alerts</div>
+            </div>
+            <div class="stat-card critical">
+                <div class="stat-value" id="criticalAlerts">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card high">
+                <div class="stat-value" id="highAlerts">0</div>
+                <div class="stat-label">High Priority</div>
+            </div>
+            <div class="stat-card recent">
+                <div class="stat-value" id="recentAlerts">0</div>
+                <div class="stat-label">Last 24 Hours</div>
+            </div>
+        </div>
+
+        <div class="alerts-section">
+            <h2>Recent Alerts</h2>
+            <div class="filters">
+                <select id="urgencyFilter">
+                    <option value="">All Urgencies</option>
+                    <option value="CRITICAL">Critical</option>
+                    <option value="HIGH">High</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="LOW">Low</option>
+                </select>
+                <select id="sourceFilter">
+                    <option value="">All Sources</option>
+                    <option value="Twitter">Twitter</option>
+                    <option value="Reddit">Reddit</option>
+                </select>
+            </div>
+            <div id="alertsList" class="alerts-list">
+                <div class="loading">Loading alerts...</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
+
